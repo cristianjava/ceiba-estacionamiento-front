@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Vehiculo } from '../vehiculo';
 import { Error } from '../error';
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Tiquete } from '../tiquete';
+import { PostVehiculoService } from '../post-vehiculo.service';
+import { ConsultaVehiculoService } from '../consulta-vehiculo.service';
 
 @Component({
   selector: 'app-salida',
@@ -13,7 +13,6 @@ import { Tiquete } from '../tiquete';
 export class SalidaComponent implements OnInit {
 
   showFormSalida = false;
-  controlSalida = false;
 
   vehiculoSalida: Vehiculo = {
     id: null,
@@ -52,38 +51,36 @@ export class SalidaComponent implements OnInit {
   };
 
   error: Error = {
-    descripcion: ''
+    descripcion: '',
+    exito: null
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private postVehiculoService: PostVehiculoService, private consultaVehiculoService: ConsultaVehiculoService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  desparquearVehiculo() {
-    this.showFormSalida = true;
-  }
-
-  cancelarDesparqueo() {
-    this.showFormSalida = false;
-  }
-  
   buscarVehiculoParqueadero() {
     this.error.descripcion = null;
     this.tiquete.fechaSalida = null;
     this.vehiculoSalida.fechaIngreso = null;
     this.tiquete.valorPago = null;
     this.vehiculoSalida.tipoVehiculo.descripcion = null;
-    this.http.get<Vehiculo[]>('http://localhost:443/vehiculo/buscarVehiculos').subscribe(vehiculos => this.vehiculos = vehiculos);
-    
-    this.http.post('http://localhost:443/vehiculo/buscarVehiculoPlaca', this.vehiculoSalida)
-      .subscribe(vehiculoSalida => this.vehiculoSalida = vehiculoSalida, error => this.error.descripcion = error.error.message);
-    this.controlSalida = false;
+    this.consultaVehiculoService.getAllVehiculos().subscribe(vehiculos => this.vehiculos = vehiculos);
+    this.consultaVehiculoService.getByPlaca(this.vehiculoSalida).subscribe(vehiculoSalida => this.vehiculoSalida = vehiculoSalida, error => this.error.descripcion = error.error.message);
   }
   
   salidaParqueadero() {
     this.error.descripcion = null;
-    this.http.post('http://localhost:443/vehiculo/salidaParqueadero', this.vehiculoSalida)
-      .subscribe(tiquete => this.tiquete = tiquete, error => this.error.descripcion = error.error.message);
+    this.postVehiculoService.salidaVehiculo(this.vehiculoSalida).subscribe(tiquete => this.tiquete = tiquete, error => this.error.descripcion = error.error.message);
   }
+  
+  desparquearVehiculo() {
+    this.showFormSalida = true;
+  }
+
+  cancelarDesparqueo() {
+    this.error.descripcion = null;
+    this.showFormSalida = false;
+  }
+  
 }
