@@ -1,0 +1,45 @@
+<script>
+  function validateRequest() { // declare a function in the global namespace
+    tipoVehicle = true;
+}
+</script>
+<div *ngIf="!showFormIngreso">
+  <a class="boton_personalizado" (click)="parquearVehiculo()">Parquear Vehiculo</a>
+</div>
+
+<div *ngIf="showFormIngreso">
+  <div class="midleWidth">
+    <label class="fullWidth">Placa:
+      <input [(ngModel)]="vehiculoIngreso.placa" placeholder="Placa">
+    </label>
+    <label class="fullWidth">Tipo:
+      <div>
+        <input type="radio" name="tipo" [(ngModel)]="tipoVehiculo.id" [value]="1" >Carro
+        <input type="radio" name="tipo" [(ngModel)]="tipoVehiculo.id" [value]="2">Moto
+      </div>
+    </label>
+    <label class="fullWidth" *ngIf="tipoVehicle">Cilindraje:
+      <input [(ngModel)]="vehiculoIngreso.cilindraje" placeholder="Cilindraje">
+    </label>
+  </div>
+  <div class="midleWidth midle_top">
+    <label class="fullWidth">Placa:
+        {{vehiculoIngreso.placa}} 
+      </label>
+      <label class="fullWidth">Tipo:
+          {{tipoVehicle ? "Moto" : "Carro"}} 
+          {{vehiculoIngreso.fechaIngreso}} 
+      </label>
+      <label class="fullWidth" *ngIf="tipoVehicle">Cilindraje:
+          {{vehiculoIngreso.cilindraje}} 
+      </label>
+  </div>
+</div>
+
+<div class="espacioMayor" *ngIf="showFormIngreso">
+  <div class="separator"></div>
+  <a class="boton_personalizado" (click)="ingresarParquear()">Parquear</a>
+  <div class="separator"></div>
+  <a class="boton_personalizado color_alert" (click)="cancelarParqueo()">Cancelar</a>
+</div> 
+{{error.descripcion}}

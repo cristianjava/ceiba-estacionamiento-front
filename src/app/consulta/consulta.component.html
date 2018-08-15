@@ -1,0 +1,13 @@
+
+<ul>
+  <li *ngFor="let vehiculo of vehiculos">
+
+    {{vehiculo.tipoVehiculo.descripcion}} <a *ngIf="mostrarCompEmpty">=</a> {{vehiculo.placa}}<a *ngIf="mostrarCompEmpty"> cc:</a> 
+    {{vehiculo.cilindraje}}
+    
+  </li>
+</ul> 
+
+
+<div class="separator"></div>
+<a class="boton_personalizado" (click)="refres()" ng-readonly="true">Refrescar</a>

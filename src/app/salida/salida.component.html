@@ -1,0 +1,88 @@
+<style type="text/css">
+  .boton_personalizado{
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #1883ba;
+    border-radius: 6px;
+    border: 2px solid #0016b0;
+    margin-left: 39%;
+  }
+  .boton_personalizado:hover{
+    cursor: pointer;
+  }
+  .boton_personalizado_dos{
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: #1883ba;
+    border-radius: 6px;
+    border: 2px solid #0016b0;
+    margin-left: 20%;
+  }
+  .boton_personalizado_dos:hover{
+    cursor: pointer;
+  }
+  .separator{
+    height: 171px;
+  }
+  .espacioMayor{
+    height: 99px;
+  }
+  .color_alert{
+    background: #f3bc23 !important;
+  }
+  .fullWidth{
+    margin-right: 100%;
+  }
+  .midleWidth{    
+    width: 47%;
+    margin-left: 10px;
+    float: left;
+  }
+  .midle_top{
+    margin-top: 40px;
+  }
+</style>
+
+<div *ngIf="!showFormSalida">
+  <a class="boton_personalizado" (click)="desparquearVehiculo()">Salida Parqueadero</a>
+</div>
+
+<div *ngIf="showFormSalida">
+  <div class="midleWidth">
+      <label class="fullWidth">Placa:
+          <input [(ngModel)]="vehiculoSalida.placa" placeholder="placaSalida">
+        </label>
+  </div>
+  <div class="midleWidth">
+      <label class="fullWidth">Placa:
+          {{vehiculoSalida.placa}} 
+        </label>
+        <label class="fullWidth">Tipo:
+            {{vehiculoSalida.tipoVehiculo.descripcion}} 
+        </label>
+        <label class="fullWidth">Ingreso:
+            {{vehiculoSalida.fechaIngreso | date:'HH:mm dd/MM/yyyy'}}
+        </label>
+        <label class="fullWidth">Salida:
+            {{tiquete.fechaSalida | date:'HH:mm dd/MM/yyyy'}}
+        </label>
+        <label class="fullWidth">Valor:
+            {{tiquete.valorPago}} 
+        </label>
+  </div>
+</div>
+
+<div class="espacioMayor" *ngIf="showFormSalida">
+    <div class="separator"></div>
+    <a class="boton_personalizado_dos" (click)="buscarVehiculoParqueadero()">Buscar</a>
+    <a class="boton_personalizado_dos" (click)="salidaParqueadero()">Salida</a>
+  <div class="separator"></div>
+  <a class="boton_personalizado color_alert" (click)="cancelarDesparqueo()">Cancelar</a>
+</div> 
+{{error.descripcion}}
